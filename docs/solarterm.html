@@ -1,0 +1,239 @@
+---
+layout: default
+---
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<style>
+div.ft-wrapper {
+  position: relative;
+}
+div.ft-scroller {
+  margin-left: 170px;
+  overflow-x: scroll;
+}
+
+div.ft-scroller table {
+  margin: 0;
+  border-collapse: separate;
+}
+
+div.ft-scroller table th:nth-child(1), div.ft-scroller table td:nth-child(1) {
+  position: absolute;
+  left: 0;
+  width: 150px;
+}
+
+div.ft-scroller table td, div.ft-scroller table th {
+  white-space: nowrap;
+}
+#timezone {
+  width: 300px;
+}
+#year {
+  width: 100px;
+}
+</style>
+
+<h1>節氣和回歸黃道宮 <br>Solar Term and Tropical Zodiac</h1>
+<h2>使用方法</h2>
+<ul>
+  <li>以下資料已經按時區設定轉換成本地時間，包括當年的日光節約時間(夏令時)轉換<br>
+    因為Windows的限制，港台用戶自動只會出來Asia/Shanghai<br>
+    香港應選Asia/Hong_Kong，台灣應選Asia/Taipei, 國際時間(UTC)選UTC
+  </li>
+  <li>翻查當年的時間時，正確的時區選擇尤其重要<br>
+    香港在1949至1979年曾實奉行日光節約時間(夏令時)制度，台灣、中國的不同地區也曾經有不同的時區、夏令時制度。<br>
+    美國近至2007年也有改變過日光節約時間規則。
+  </li>
+  <li>日期是以`月-日 時:分:秒`表示</li>
+</ul>
+<h2>Usage</h2>
+<ul>
+  <li>The data is presented in local time, with the daylight saving time rule at that time applied.<br>
+    Due to the limitation of Windows, timezone auto detection might not work.<br>
+    Use `Asia/Hong_Kong` for Hong Kong. `Asia/Taipei` for Taiwan. `UTC` for UTC.
+  </li>
+  <li>It's utterly important to select the correct timezone when looking up past data<br>
+    Although DST is not used in the greater China today, it was a thing in eariler days. Hong Kong has employed DST from 1949 to 1979. The timezone of provinces of China was not unified in early days.<br>
+    US DST rules were changed for a few times throughout the century. The last change was made in 2007.
+  </li>
+  <li>All date in MM-DD hh:mm:ss</li>
+  <li>Language of the column header could be changed in the dropdown box</li>
+</ul>
+
+<h2>資料 Data</h2>
+<select id="timezone">
+</select>
+<select id="year">
+</select>
+
+<div class="ft-wrapper">
+  <div class="ft-scroller">
+    <table>
+      <tr class="heading">
+        <th>
+          <select oninput="changeHeader(this.value)">
+            <option value="st-zh" selected>節氣</option>
+            <option value="z-zh">黃道宮</option>
+            <option value="st-en">Solar Term</option>
+            <option value="z-en">Zodiac</option>
+          </select>
+        </th>
+        <!--th>星座 Zodiac</th-->
+      </tr>
+      <tr class="heading">
+        <th>&nbsp;</th>
+      </tr>
+    </table>
+  </div>
+</div>
+<template id="header-cell">
+  <th>
+    <span class="text"></span>
+    <span class="emoji"></span>
+  </th>
+</template>
+
+<h2>注意事項</h2>
+<ul>
+  <li>春分、夏至、秋分、冬至是就北半球而言</li>
+  <li>因為天文觀測數據原之差異、UTC潤秒調整機制 (影響1970年前和在2022年後的數據)，以下資料可能和其他來源有達一分鐘之誤差。<br>
+    數據是基於ERFA演算。計算程式請參閱github repo。
+  </li>
+</ul>
+<h2>Note</h2>
+<ul>
+  <li>Due to the differences of astronomical observation data, introduction of UTC leap second (Affecting data before 1970 and after 2022), the following data might have error up to a minute compared to other sources.</li>
+  <li>Vernal equinox, summer solstice, autumnal equinox, winter solstice denoted below is for the Northern Hemisphere.<br>
+    The data base calculated with ERFA. Please refer to github repo for the program.
+  </li>
+</ul>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.0/moment.min.js" integrity="sha512-Izh34nqeeR7/nwthfeE0SI3c8uhFSnqxV0sI9TvTcXiFJkMd6fB644O64BRq2P/LA/+7eRvCw4GmLsXksyTHBg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!--Always load the latest-->
+<script src="https://cdn.jsdelivr.net/npm/moment-timezone@0/builds/moment-timezone-with-data.min.js"></script>
+<script>
+
+let data;
+let solartermZh = [];
+let solartermEn = [];
+let zodiacEmoji = [];
+let zodiacZh = [];
+let zodiacEn = [];
+let t = document.querySelector('div.ft-scroller table');
+let tHeader = document.querySelector('template#header-cell');
+let tzs = $("#timezone");
+let ys = $("#year");
+let years = []
+tzs.select2({
+  data: moment.tz.names(),
+});
+ys.select2({ data: years });
+
+tzs.on('select2:select', function (e) {
+  var data = e.params.data;
+  refresh(data.text, false);
+});
+ys.on('select2:select', function(e) {
+  var data = e.params.data;
+  gotoYear(data.text);
+})
+async function main() {
+  let keys = (await (await fetch('solarterm-key.csv')).text()).split('\n');
+  
+  for (let i = 0; i < keys.length; i++) {
+    if (keys[i].includes("Solar Term")) {
+      let texts = keys.slice(i+1, i+25);
+      solartermZh = texts.map(v => v.split(' ')[0]);
+      solartermEn = texts.map(v => v.match(/ (.*)/)[1]);
+    }
+    if (keys[i].includes("Zodiac Text")) {
+      let texts = keys.slice(i+1, i+13);
+      zodiacZh = texts.map(v => v.split(' ')[0]);
+      zodiacEn = texts.map(v => v.split(' ')[1]);
+    }
+    if (keys[i].includes("Zodiac Emoji")) {
+      zodiacEmoji = keys.slice(i+1, i+13);
+    }
+  }
+
+  for (let i = 0; i < 24; i++) {
+    let r = t.insertRow(i+1);
+    let h = document.createElement('th');
+    h.className = 'header';
+    h.textContent = i; // To be replaced below
+    r.appendChild(h);
+  }
+
+  data = (await (await fetch('solarterm-data.csv')).text()).split('\n');
+
+  changeHeader('st-zh');
+  refresh(moment.tz.guess(), true);
+}
+
+function gotoYear(year) {
+  ys.val(year).trigger('change');
+  var h = document.querySelector(`.year-${year}`);
+  if (h) h.scrollIntoView({block: "nearest", inline: "start"});
+}
+
+function changeHeader(mode) {
+  let headers = t.querySelectorAll('.header');
+
+  let zh = mode.includes('-zh');
+  let solartermP = zh ? solartermZh : solartermEn;
+  let solartermS = !zh ? solartermZh : solartermEn;
+  let zodiacP = zh ? zodiacZh : zodiacEn;
+  let zodiacS = !zh ? zodiacZh : zodiacEn;
+  for (let i = 0; i < 24; i++) {
+    let h = tHeader.content.cloneNode(true);
+    let zi = Math.floor((i-5+24)%24/2);
+    h.querySelector('th').className = 'header';
+    h.querySelector('.emoji').textContent = zodiacEmoji[zi];
+    if (mode.includes('z-')) {
+      h.querySelector('.text').textContent = zodiacP[zi];
+      h.querySelector('.text').title = zodiacS[zi];
+      h.querySelector('.emoji').title = zodiacS[zi];
+    } else {
+      h.querySelector('.emoji').title = zodiacP[zi];
+      h.querySelector('.text').textContent = solartermP[i];
+      h.querySelector('.text').title = solartermS[i];
+    }
+    headers[i].replaceWith(h);
+  }
+}
+function refresh(tz, setYear) {
+  if (!data) return;
+  tzs.val(tz).trigger("change");
+  years = []
+
+  t.querySelectorAll('.dd').forEach(e => e.remove());
+  let dataRows = t.querySelectorAll('tr:not(.heading)');
+  let headings = t.querySelectorAll('tr.heading');
+  for (let row of data) {
+    if (row.match(/^\s*$/)) continue;
+    year = row.substring(0, 4);
+    years.push(year)
+    terms = row.split(',');
+    for (let i = 0; i < 24; i++) {
+      let d = moment.tz(terms[i]+'Z', tz);
+      let c = dataRows[i].insertCell();
+      c.innerText = d.format('MM-DD HH:mm:ss');
+      c.className = "dd";
+    }
+    for (let heading of headings) {
+      let th = document.createElement('th');
+      th.innerText = year;
+      th.className = `dd year-${year}`;
+      heading.appendChild(th);
+    }
+  }
+  if (setYear) {
+    ys.select2({ data: years });
+    gotoYear('2000');
+  }
+  sectionHeight();
+}
+main();
+</script>
