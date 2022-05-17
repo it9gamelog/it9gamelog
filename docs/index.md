@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# 網站
+# I.T. 9 遊戲日誌
 
 * [Facebook](https://www.facebook.com/it9gamelog)
 * [Medium](https://it9gamelog.medium.com/)
