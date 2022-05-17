@@ -11,4 +11,4 @@ layout: default
 
 # 輔助資料
 
-[節氣和回歸黃道宮 Solar Term and Tropical Zodiac](./solarterm.html)
+[節氣和回歸黃道宮 Solar Term and Tropical Zodiac](./solarterm)
