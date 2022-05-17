@@ -130,14 +130,26 @@ tzs.select2({
 });
 ys.select2({ data: years });
 
+let currentTz = '';
+let currentYear = '';
+let currentMode = '';
+let initialized = false;
+
+function gaLog(action) {
+  if (!initialized) return;
+  gtag('event', 'solarterm', { tz: currentTz, year: currentYear, mode: currentMode, action: action });
+}
+
 tzs.on('select2:select', function (e) {
   var data = e.params.data;
   refresh(data.text, false);
 });
+
 ys.on('select2:select', function(e) {
   var data = e.params.data;
   gotoYear(data.text);
 })
+
 async function main() {
   let keys = (await (await fetch('solarterm-key.csv')).text()).split('\n');
   
@@ -169,15 +181,20 @@ async function main() {
 
   changeHeader('st-zh');
   refresh(moment.tz.guess(), true);
+  initialized = true;
 }
 
 function gotoYear(year) {
+  currentYear = year;
+  gaLog('year');
   ys.val(year).trigger('change');
   var h = document.querySelector(`.year-${year}`);
   if (h) h.scrollIntoView({block: "nearest", inline: "start"});
 }
 
 function changeHeader(mode) {
+  currentMode = mode;
+  gaLog('mode');
   let headers = t.querySelectorAll('.header');
 
   let zh = mode.includes('-zh');
@@ -204,8 +221,10 @@ function changeHeader(mode) {
 }
 function refresh(tz, setYear) {
   if (!data) return;
+  currentTz = tz;
+  gaLog('action');
   tzs.val(tz).trigger("change");
-  years = []
+  years = [];
 
   t.querySelectorAll('.dd').forEach(e => e.remove());
   let dataRows = t.querySelectorAll('tr:not(.heading)');
