@@ -3,4 +3,14 @@ title: "I.T. 9 遊戲日誌"
 theme: jekyll-theme-leap-day
 remote_theme: pages-themes/leap-day@v0.2.0
 plugins:
-    - jekyll-remote-theme
+  - jekyll-remote-theme
+  - jekyll-redirect-from
+  - jekyll-titles-from-headings
+
+social:
+  name: "I.T. 9 遊戲日誌"
+  links:
+    - https://www.facebook.com/it9gamelog
+    - https://it9gamelog.medium.com/
+    - https://www.patreon.com/it9gamelog
+    - https://www.youtube.com/it9gamelog

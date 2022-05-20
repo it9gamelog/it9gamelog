@@ -1,14 +1,17 @@
 ---
 layout: default
+title: "I.T. 9 遊戲日誌"
+description: "參考資料網站"
 ---
 
-# I.T. 9 遊戲日誌
+## 社交媒體連結
 
-* [Facebook](https://www.facebook.com/it9gamelog)
-* [Medium](https://it9gamelog.medium.com/)
-* [Patreon](https://www.patreon.com/it9gamelog)
-* [Youtube](https://www.youtube.com/it9gamelog)
+- [Facebook](https://www.facebook.com/it9gamelog)
+- [Medium](https://it9gamelog.medium.com/)
+- [Patreon](https://www.patreon.com/it9gamelog)
+- [Youtube](https://www.youtube.com/it9gamelog)
 
-# 輔助資料
+## 參考資料
 
-[節氣和回歸黃道宮 Solar Term and Tropical Zodiac](./solarterm)
+- [回歸黃道宮和二十四節氣](./solarterm/zh/)
+- [Zodiacs and Solar Terms](./solarterm/en/)

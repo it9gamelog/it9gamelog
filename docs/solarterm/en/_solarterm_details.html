@@ -1,0 +1,141 @@
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css"
+  integrity="sha512-aD9ophpFQ61nFZP6hXYu4Q/b/USW7rpLCQLX6Bi0WJHXNO7Js/fUENpBQf/+P4NtpzNX0jSgR5zVvPOJp+W2Kg=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"
+  integrity="sha512-4MvcHwcbqXKUHB6Lx3Zb5CEAVoE9u84qN+ZSMM6s7z8IeJriExrV3ND5zRze9mxNlABJ6k864P/Vl8m0Sd3DtQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+<style>
+  div.ft-wrapper table td,
+  div.ft-wrapper table th {
+    white-space: nowrap;
+  }
+
+  div.ft-wrapper table td.heading {
+    font-weight: bold;
+  }
+
+  #timezone {
+    width: 300px;
+  }
+
+  #year-selector {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  }
+</style>
+
+<p>
+  Presented below are the dates and times of the tropical zodiac signs and solar
+  terms of Year {{ include.year }}. Tropical zodiac system is the most popular
+  system used in the western astrology. While astrological zodiac bears
+  resemblance to yet different from its astronomical constellation pair, it is
+  closely related to the solar term (jié qì / 節氣) which is part of the
+  traditional Chinese lunisolar calendar system.
+</p>
+
+<p>
+  <a href="{{ site.data.video_url.202205_astrology }}">My Youtube video</a>
+  explains the relationships between astrological zodiac, astronomical
+  constellations, ecliptic and solar terms.
+</p>
+
+<p>
+  <a href="../zh/{{ include.year }}.html">按此前往中文版本</a>
+</p>
+
+<h2>Timezone</h2>
+<p>Make sure the timezone is selected correctly.</p>
+<select id="timezone"></select>
+
+<blockquote>
+  <p>
+    Due to the limitation of Windows, the detected timezone might be wrong.<br />
+    Use `Asia/Hong_Kong` for Hong Kong. `Asia/Taipei` for Taiwan. `UTC` for UTC.
+  </p>
+</blockquote>
+
+<h2>Data</h2>
+
+<blockquote class="loading">Data is loading...</blockquote>
+
+<div class="ft-wrapper">
+  <table>
+    <tr class="heading">
+      <th width="25%">Zodiac Sign</th>
+      <th width="30%">Solar Term</th>
+      <th>Date and Time</th>
+    </tr>
+  </table>
+</div>
+<template id="header-cell">
+  <td class="heading">
+    <span class="emoji"></span>
+    <span class="text"></span>
+  </td>
+</template>
+
+<h2>Other Years</h2>
+<p id="year-selector"></p>
+
+<template id="year-cell">
+  <span>
+    <a href=""></a>
+  </span>
+</template>
+
+<h2>Note</h2>
+<ul>
+  <li>The date is in <em>YYYY-MM-DD hh:mm:ss</em> format</li>
+  <li>
+    The data is presented in local time of the selected timezone, with the
+    daylight saving time rule of the time applied.
+  </li>
+  <li>
+    It's utterly important to select the correct timezone when looking up past
+    data<br />
+    Although DST is not used in the greater China today, it was a thing in
+    eariler days. Hong Kong has employed DST from 1949 to 1979. China were in a
+    few timezones (similar to US) instead of unified to UTC+8 in early days.<br />
+    US DST rules were changed for a few times throughout the century. The last
+    change was made in 2007.
+  </li>
+  <li>
+    The seasons of the equinoxess and solstices are named so assuming
+    observation from the Northern hemisphere, since the solar terms were an
+    Chinese invention.<br />
+    The seasons in the Southern hemisphere are the opposite.
+  </li>
+  <li>
+    Due to the differences of astronomical observation data, introduction of UTC
+    leap second, the data might have error up to a minute when compared to the
+    other sources.
+  </li>
+  <li>
+    The data is computed with the ERFA library. The computation program could be
+    found on the github repo.
+  </li>
+</ul>
+
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.0/moment.min.js"
+  integrity="sha512-Izh34nqeeR7/nwthfeE0SI3c8uhFSnqxV0sI9TvTcXiFJkMd6fB644O64BRq2P/LA/+7eRvCw4GmLsXksyTHBg=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.34/moment-timezone-with-data.min.js"
+  integrity="sha512-fFkDTD3GpiLXZBIrfRu0etHZkCdWPkcNy4TjDqI3gQFVfbbDRFG5vV7w3mIeeOCvUY5cEKTUFiTetIsFtWjF1Q=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+<script src="/solarterm/solarterm.js"></script>
+<script>
+  showSolarterm({{ include.year }}, 'en');
+</script>

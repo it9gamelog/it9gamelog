@@ -1,0 +1,125 @@
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css"
+  integrity="sha512-aD9ophpFQ61nFZP6hXYu4Q/b/USW7rpLCQLX6Bi0WJHXNO7Js/fUENpBQf/+P4NtpzNX0jSgR5zVvPOJp+W2Kg=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"
+  integrity="sha512-4MvcHwcbqXKUHB6Lx3Zb5CEAVoE9u84qN+ZSMM6s7z8IeJriExrV3ND5zRze9mxNlABJ6k864P/Vl8m0Sd3DtQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+<style>
+  div.ft-wrapper table td,
+  div.ft-wrapper table th {
+    white-space: nowrap;
+  }
+
+  div.ft-wrapper table td.heading {
+    font-weight: bold;
+  }
+
+  #timezone {
+    width: 300px;
+  }
+
+  #year-selector {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  }
+</style>
+
+<p>
+  以下是{{ include.year
+  }}年的二十四節氣和回歸黃道為基準的黃道十二宮(又稱十二星座)的交界日期。
+  回歸黃道制和其十二宮為主流西洋占星術、星座運程中所用，其日子界線定義和中國傳統二十四節氣完全一致。
+</p>
+
+<p>
+  <a href="{{ site.data.video_url.202205_astrology }}">本Youtube影片</a
+  >講術了西洋占星術、黃道十二宮、節氣等關係，歡迎觀看。
+</p>
+
+<p>
+  <a href="../en/{{ include.year }}.html">Click here for the English Version</a>
+</p>
+
+<h2>時區</h2>
+<p>查看資料前，請確保選擇了正確的時區。</p>
+<select id="timezone"></select>
+
+<blockquote>
+  <p>
+    因為Windows的限制，港台用戶自動只會出來Asia/Shanghai<br />
+    香港應選Asia/Hong_Kong、台灣應選Asia/Taipei、國際時間(UTC)選UTC。
+  </p>
+</blockquote>
+
+<h2>資料</h2>
+
+<blockquote class="loading">資料加載中，請稍候。</blockquote>
+
+<div class="ft-wrapper">
+  <table>
+    <tr class="heading">
+      <th width="25%">黃道宮(星座)</th>
+      <th width="25%">節氣</th>
+      <th>日期和時間</th>
+    </tr>
+  </table>
+</div>
+<template id="header-cell">
+  <td class="heading">
+    <span class="emoji"></span>
+    <span class="text"></span>
+  </td>
+</template>
+
+<h2>其他年份</h2>
+<p id="year-selector"></p>
+
+<template id="year-cell">
+  <span>
+    <a href=""></a>
+  </span>
+</template>
+
+<h2>注意事項</h2>
+<ul>
+  <li>以上日期是以<em>年-月-日 時:分:秒</em>表示</li>
+  <li>
+    以上資料已經按時區設定轉換成本地時間，包括是以當年的日光節約時間(夏令時)進行轉換<br />
+  </li>
+  <li>
+    翻查以前的的日子時，正確的時區選擇尤其重要<br />
+    香港在1949至1979年曾實奉行日光節約時間(夏令時)制度，台灣、中國的不同地區也曾經有不同的時區、夏令時制度。<br />
+    美國近至2007年也有改變過日光節約時間規則。
+  </li>
+  <li>
+    節氣中的春分(3月分點)、夏至(6月至點)、秋分(9月分點)、冬至(12月至點)的春夏秋冬是就北半球而言。南半球的四季和北半球是相反的。
+  </li>
+  <li>
+    因為天文觀測數據原之差異、UTC潤秒調整機制等，上術資料可能和其他來源有達一分鐘之誤差。
+  </li>
+  <li>資料是基於ERFA演算。其計算程式請參閱github repo。</li>
+</ul>
+
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.0/moment.min.js"
+  integrity="sha512-Izh34nqeeR7/nwthfeE0SI3c8uhFSnqxV0sI9TvTcXiFJkMd6fB644O64BRq2P/LA/+7eRvCw4GmLsXksyTHBg=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.34/moment-timezone-with-data.min.js"
+  integrity="sha512-fFkDTD3GpiLXZBIrfRu0etHZkCdWPkcNy4TjDqI3gQFVfbbDRFG5vV7w3mIeeOCvUY5cEKTUFiTetIsFtWjF1Q=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+
+<script src="/solarterm/solarterm.js"></script>
+<script>
+  showSolarterm({{ include.year }}, 'zh');
+</script>
