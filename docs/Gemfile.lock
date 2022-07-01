@@ -280,6 +280,7 @@ DEPENDENCIES
   jekyll (= 3.9.2)
   jekyll-feed (~> 0.12)
   jekyll-redirect-from
+  jekyll-sitemap
   jekyll-titles-from-headings
   tzinfo (~> 1.2)
   tzinfo-data

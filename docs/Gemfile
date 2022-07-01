@@ -36,3 +36,4 @@ gem "http_parser.rb", "~> 0.6.0", :platforms => [:jruby]
 gem "github-pages", "226", group: :jekyll_plugins
 gem 'jekyll-redirect-from'
 gem 'jekyll-titles-from-headings'
+gem 'jekyll-sitemap'
