@@ -2,6 +2,7 @@ title: "I.T. 9 遊戲日誌"
 
 theme: jekyll-theme-leap-day
 remote_theme: pages-themes/leap-day@v0.2.0
+show_downloads: false
 plugins:
   - jekyll-remote-theme
   - jekyll-redirect-from
@@ -15,3 +16,5 @@ social:
     - https://it9gamelog.medium.com/
     - https://www.patreon.com/it9gamelog
     - https://www.youtube.com/it9gamelog
+lang: zh-HK
+locale: zh_HK
