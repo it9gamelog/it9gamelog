@@ -78,7 +78,7 @@ head: <link rel="stylesheet" href="watermark.css">
 
 呢啲招數嘅正式名字叫做[隱寫術(Steganography)](https://zh.wikipedia.org/zh-hk/%E9%9A%90%E5%86%99%E6%9C%AF)，喺在IT界比較著名嘅例子有[彩色雷射打印機MIC](https://en.wikipedia.org/wiki/Machine_Identification_Code)，用來追蹤文件打印時間同所用嘅打印機。
 
-以上所演示嘅兩款網頁隱寫術，其原理喺我嘅<a href="">Medium Post</a>中有更詳盡說明。但呢兩款並非唯二可以用嘅隱寫方式，亦唔係明示暗示而家嘅SNS有用呢啲招數，而只是旨在演示有呢種可能性。
+以上所演示嘅兩款網頁隱寫術，其原理喺我嘅<a href="https://medium.com/@it9gamelog/watermark-f86aad9024eb">Medium Post</a>中有更詳盡說明。但呢兩款並非唯二可以用嘅隱寫方式，亦唔係明示暗示而家嘅SNS有用呢啲招數，而只是旨在演示有呢種可能性。
 
 如果想將一處訊息安全地甩尾傳出去，唯一保証安全嘅辦法就係如同文字記者一樣－自己再謄寫一次。至於圖片或影片檔案，若有心人要夾帶任何隱寫訊息嘅話，基本上係完全無法偵測得到。
 
