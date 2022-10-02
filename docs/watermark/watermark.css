@@ -1,0 +1,118 @@
+#wm-img-in {
+  display: grid;
+  grid-template-rows: auto auto;
+}
+#wm-img-text {
+  grid-area: 1 / 1;
+}
+#wm-img-file-box {
+  grid-area: 2 / 1;
+}
+#wm-img-drop-target {
+  display: none;
+  place-items: center;
+  grid-area: 1 / 1 / span 2;
+  animation: glow 800ms ease-out infinite alternate;
+  place-self: stretch;
+  background: rgb(251, 255, 0, 0.4);
+  font-size: 150%;
+  font-weight: 600;
+}
+@keyframes glow {
+	0% {
+		border-color: rgb(153, 146, 51);
+		box-shadow: 0 0 5px rgba(251, 255, 0, 0.2);
+	}
+	100% {
+		border-color: rgb(255, 201, 102);
+		box-shadow: 0 0 20px rgba(255, 217, 0, 0.6);
+	}
+}
+.dragging #wm-img-in > * {
+  visibility: hidden;
+}
+.dragging #wm-img-drop-target {
+  display: grid;
+  visibility: visible;
+}
+#wm-sns-frame {
+  width: 568px;
+  min-height: 285px;
+  border-radius: 8px;
+  overflow-wrap: break-word;
+  box-shadow: #000 0px 1px 2px 0px;
+  display: grid;
+  grid-template-rows: min-content 1fr min-content;
+  margin: 16px;
+  background: #fff;
+  font: 15px/20px "Segoe UI Historic", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.98);
+}
+#wm-sns-header {
+  display: grid;
+  grid-template: 
+    "pic name" auto
+    "pic time" auto / min-content auto;
+  margin: 12px 16px 0 16px;
+}
+#wm-sns-profile-pic {
+  grid-area: pic;
+  place-self: center center;
+  background: #aaa;
+  height: 48px;
+  width: 48px;
+  margin: 0 12px 0 0;
+  border-radius: 50%;
+}
+#wm-sns-profile-name {
+  font-weight: 600;
+  align-self: end;
+  font-size: 15px;
+  line-height: 20px;
+}
+#wm-sns-profile-time {
+  color: rgb(101, 103, 107);
+  font-size: 13px;
+  line-height: 16px;
+}
+#wm-sns-profile-time img {
+  vertical-align: middle;
+  opacity: 0.75;
+}
+#wm-sns-content {
+  padding: 8px 16px;
+}
+#wm-sns-footer-bar {
+  place-self: center center;
+  line-height: 0px;
+}
+#wm-sns-footer-buttons {
+  border-top: 1px solid #ccc;
+  margin: 0px 16px 2px;
+  display: grid;
+}
+#wm-sns-footer-buttons img {
+  width: 480px;
+  place-self: center;
+}
+#wm-img-out {
+  max-width: 100%;
+  max-height: 480px;
+  overflow: auto;
+  display: grid;
+  grid-template: "p" auto / auto;
+  background: #ddd;
+}
+#wm-img-out div {
+  grid-area: p;
+}
+#wm-img-out img {
+  max-width: unset;
+  left: 0;
+  top: 0;
+  background: #ddd;
+}
+textarea {
+  width: 100%;
+}

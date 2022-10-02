@@ -11,6 +11,11 @@ description: "參考資料網站"
 - [Patreon](https://www.patreon.com/it9gamelog)
 - [Youtube](https://www.youtube.com/it9gamelog)
 
+## 小手作
+
+- [文章暗水印追蹤](./watermark/)
+
+
 ## 參考資料
 
 - [回歸黃道宮和二十四節氣](./solarterm/zh/)
